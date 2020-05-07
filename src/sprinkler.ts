@@ -1,0 +1,113 @@
+import {stringToBuffer} from '@liskhq/lisk-cryptography';
+import {validator} from '@liskhq/lisk-validator';
+import {
+    BaseTransaction,
+    StateStore,
+    StateStorePrepare,
+    TransactionError,
+    convertToAssetError,
+} from '@liskhq/lisk-transactions';
+
+import {TRANSACTION_TYPE} from './constants';
+import {TransactionAssetSchema} from './schemas';
+import {TransactionAsset, SprinklerTransactionInterface, SprinklerOptions} from './interfaces';
+
+export class Sprinkler extends BaseTransaction {
+    readonly asset: TransactionAsset;
+    readonly amount: bigint;
+    readonly balance: bigint;
+    public readonly TYPE = TRANSACTION_TYPE;
+
+    public constructor(rawTransaction: unknown, options: SprinklerOptions) {
+        super(rawTransaction);
+        const tx = (typeof rawTransaction === 'object' && rawTransaction !== null
+            ? rawTransaction
+            : {}) as Partial<SprinklerTransactionInterface>;
+
+        this.fee = BigInt(0);
+        this.amount = BigInt(options.amount);
+        this.balance = BigInt(options.balance);
+
+        if (tx.asset) {
+            this.asset = {
+                ...tx.asset,
+            } as TransactionAsset;
+        } else {
+            this.asset = {
+                username: "",
+            } as TransactionAsset;
+        }
+    }
+
+    protected assetToBytes(): Buffer {
+        return stringToBuffer(this.asset.username);
+    }
+
+    public async prepare(store: StateStorePrepare): Promise<void> {
+        await store.account.cache([
+            {
+                address: this.senderId,
+            },
+        ]);
+    }
+
+    public assetToJSON(): object {
+        return {
+            ...this.asset,
+        }
+    }
+
+    protected validateAsset(): ReadonlyArray<TransactionError> {
+        const asset = this.assetToJSON();
+        const schemaErrors = validator.validate(TransactionAssetSchema, asset);
+        return convertToAssetError(
+            this.id,
+            schemaErrors,
+        ) as TransactionError[];
+    }
+
+    protected async applyAsset(store: StateStore): Promise<ReadonlyArray<TransactionError>> {
+        const errors: TransactionError[] = [];
+        const sender = await store.account.getOrDefault(this.senderId);
+
+        if (this.asset.username && sender.username && sender.username !== this.asset.username) {
+            errors.push(
+                new TransactionError(
+                    'Username already set differently',
+                    this.id,
+                    '.asset.username',
+                    this.asset.username,
+                    sender.username,
+                )
+            );
+        }
+
+        if (sender.balance > BigInt(this.balance)) {
+            errors.push(
+                new TransactionError(
+                    'Sender balance is too high',
+                    this.id,
+                    '.balance',
+                    sender.balance.toString(),
+
+                )
+            );
+        }
+
+        sender.username = sender.username || this.asset.username;
+        sender.balance += this.amount;
+
+        store.account.set(sender.address, sender);
+        return errors;
+    }
+
+    protected async undoAsset(store: StateStore): Promise<ReadonlyArray<TransactionError>> {
+        const errors: TransactionError[] = [];
+        const sender = await store.account.get(this.senderId);
+
+        sender.balance -= this.amount;
+        store.account.set(sender.address, sender);
+
+        return errors;
+    }
+}
