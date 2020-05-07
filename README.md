@@ -60,9 +60,5 @@ Transaction({
 }*/
 ```
 
-# Tasks
-- Create more extensive tests
-- Register transaction type
-
 # Change logs
-`May 6st, 2020`: Created initial release
+`May 7th, 2020`: Created initial release
