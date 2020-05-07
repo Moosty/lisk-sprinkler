@@ -1,6 +1,6 @@
 # Lisk-sprinkler
-####Type: 1300
-####SDK Versions: v4.0.0
+#### Type: 1300
+#### SDK Versions: v4.0.0
 
 `lisk-sprinkler` is a faucet transaction with username registration.
 
