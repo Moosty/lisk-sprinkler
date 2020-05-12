@@ -17,8 +17,10 @@ app.registerTransaction(SprinklerTransaction);
 const { unConfiguredSprinklerTransaction } = require('@moosty/lisk-sprinkler');
 
 // configure amount to receive from the transaction
+// balance is used as max account balance to run the sprinkler transaction
 const SprinklerTransaction = unConfiguredSprinklerTransaction({
   amount: "10000000000",
+  balance: "100000000",
 })
 app.registerTransaction(SprinklerTransaction);
 ```
