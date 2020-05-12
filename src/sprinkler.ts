@@ -16,7 +16,7 @@ export class Sprinkler extends BaseTransaction {
     readonly asset: TransactionAsset;
     readonly amount: bigint;
     readonly balance: bigint;
-    public readonly TYPE = TRANSACTION_TYPE;
+    public static TYPE = TRANSACTION_TYPE;
 
     public constructor(rawTransaction: unknown, options: SprinklerOptions) {
         super(rawTransaction);
