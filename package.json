@@ -13,7 +13,7 @@
     "test": "jest --coverage --verbose",
     "test:ci": "jest --config ./jest.config.js",
     "prebuild": "rm -r dist-node | rm tsconfig.tsbuildinfo | mkdir dist-node | true",
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.browser.json",
     "build:check": "node -e \"require('./dist-node')\""
   },
   "dependencies": {
@@ -44,6 +44,10 @@
   "directories": {
     "test": "test"
   },
+  "files": [
+    "dist-node",
+    "dist-browser"
+  ],
   "keywords": [
     "lisk",
     "custom transaction",

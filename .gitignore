@@ -111,6 +111,7 @@ types
 package-lock.json
 
 dist/
+dist-browser
 .idea
 .DS_Store
 .project

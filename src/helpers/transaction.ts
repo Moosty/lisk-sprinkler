@@ -61,7 +61,7 @@ export const sprinkler = (inputs: Inputs): Partial<TransactionJSON> => {
 
     const tx = {
         ...createBaseTransaction(inputs),
-        type: 1300,
+        type: 1301,
         // For txs from multisig senderPublicKey must be set before attempting signing
         senderPublicKey,
         asset: {
