@@ -48,6 +48,9 @@
     "dist-node",
     "dist-browser"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "lisk",
     "custom transaction",
