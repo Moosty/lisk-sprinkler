@@ -6,6 +6,7 @@ import {
 import { TransactionJSON } from '@liskhq/lisk-transactions';
 import { createBaseTransaction } from '@liskhq/lisk-transactions/dist-node/utils'
 import { SprinklerTransaction } from '../';
+import {TRANSACTION_TYPE} from "../constants";
 
 export interface Inputs {
     readonly fee: string;
@@ -61,7 +62,7 @@ export const sprinkler = (inputs: Inputs): Partial<TransactionJSON> => {
 
     const tx = {
         ...createBaseTransaction(inputs),
-        type: 1301,
+        type: TRANSACTION_TYPE,
         // For txs from multisig senderPublicKey must be set before attempting signing
         senderPublicKey,
         asset: {
