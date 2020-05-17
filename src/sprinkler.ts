@@ -6,12 +6,17 @@ import {
     StateStorePrepare,
     TransactionError,
     convertToAssetError,
+    convertToTransactionError,
+    utils,
 } from '@liskhq/lisk-transactions';
 
 import {TRANSACTION_TYPE} from './constants';
-import {TransactionAssetSchema} from './schemas';
+import {TransactionAssetSchema, baseTransaction} from './schemas';
 import {TransactionAsset, SprinklerTransactionInterface, SprinklerOptions} from './interfaces';
 
+const {validateSenderIdAndPublicKey} = utils;
+
+// @ts-ignore
 export class Sprinkler extends BaseTransaction {
     readonly asset: TransactionAsset;
     readonly amount: bigint;
@@ -107,6 +112,36 @@ export class Sprinkler extends BaseTransaction {
 
         sender.balance -= this.amount;
         store.account.set(sender.address, sender);
+
+        return errors;
+    }
+
+    protected _validateSchema(): ReadonlyArray<TransactionError> {
+        const transaction = this.toJSON();
+        const schemaErrors = validator.validate(
+            baseTransaction,
+            transaction,
+        );
+        const errors = convertToTransactionError(
+            this.id,
+            schemaErrors,
+        ) as TransactionError[];
+
+        if (
+            !errors.find(
+                (err: TransactionError) => err.dataPath === '.senderPublicKey',
+            )
+        ) {
+            // `senderPublicKey` passed format check, safely check equality to senderId
+            const senderIdError = validateSenderIdAndPublicKey(
+                this.id,
+                this.senderId,
+                this.senderPublicKey,
+            );
+            if (senderIdError) {
+                errors.push(senderIdError);
+            }
+        }
 
         return errors;
     }
