@@ -8,13 +8,15 @@ import {
     convertToAssetError,
     convertToTransactionError,
     utils,
+    TransactionResponse,
+    createResponse,
 } from '@liskhq/lisk-transactions';
 
 import {TRANSACTION_TYPE} from './constants';
 import {TransactionAssetSchema, baseTransaction} from './schemas';
 import {TransactionAsset, SprinklerTransactionInterface, SprinklerOptions} from './interfaces';
 
-const {validateSenderIdAndPublicKey} = utils;
+const {validateSenderIdAndPublicKey, getId} = utils;
 
 // @ts-ignore
 export class Sprinkler extends BaseTransaction {
@@ -114,6 +116,29 @@ export class Sprinkler extends BaseTransaction {
         store.account.set(sender.address, sender);
 
         return errors;
+    }
+
+    public validate(): TransactionResponse {
+        const errors = [...this._validateSchema(), ...this.validateAsset()];
+        if (errors.length > 0) {
+            return createResponse(this.id, errors);
+        }
+
+        this._id = getId(this.getBytes());
+
+        if (this.type !== (this.constructor as typeof BaseTransaction).TYPE) {
+            errors.push(
+                new TransactionError(
+                    `Invalid transaction type`,
+                    this.id,
+                    '.type',
+                    this.type,
+                    (this.constructor as typeof BaseTransaction).TYPE,
+                ),
+            );
+        }
+
+        return createResponse(this.id, errors);
     }
 
     protected _validateSchema(): ReadonlyArray<TransactionError> {
