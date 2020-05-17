@@ -31,7 +31,7 @@ export class Sprinkler extends BaseTransaction {
             ? rawTransaction
             : {}) as Partial<SprinklerTransactionInterface>;
 
-        this.fee = BigInt(0);
+        this.fee = BigInt(1000);
         this.amount = BigInt(options.amount);
         this.balance = BigInt(options.balance);
 
