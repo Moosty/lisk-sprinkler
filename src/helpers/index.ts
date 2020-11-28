@@ -1,1 +1,0 @@
-export { sprinkler } from './transaction';

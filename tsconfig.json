@@ -20,7 +20,8 @@
     "importHelpers": true,
     "noImplicitAny": false,
     "rootDir": "./src/",
-    "outDir": "./dist-node"
+    "outDir": "./dist-node",
+    "skipLibCheck": true
   },
   "include": [
     "./src/**/*"
