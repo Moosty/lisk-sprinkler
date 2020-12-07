@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SprinklerTransaction = void 0;
-const lisk_sdk_1 = require("lisk-sdk");
-class SprinklerTransaction extends lisk_sdk_1.BaseAsset {
+const {BaseAsset} = require("lisk-sdk");
+class SprinklerTransaction extends BaseAsset {
     constructor() {
         super(...arguments);
         this.name = "sprinkle";

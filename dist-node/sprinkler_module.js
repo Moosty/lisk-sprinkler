@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SprinklerModule = void 0;
-const lisk_sdk_1 = require("lisk-sdk");
+const {BaseModule} = require("lisk-sdk");
 const _1 = require(".");
-const sprinkler_asset_1 = require("./sprinkler_asset");
-class SprinklerModule extends lisk_sdk_1.BaseModule {
+const {getAllUsernamesAsJSON} = require("./sprinkler_asset");
+class SprinklerModule extends BaseModule {
     constructor() {
         super(...arguments);
         this.name = "sprinkler";
@@ -24,7 +24,7 @@ class SprinklerModule extends lisk_sdk_1.BaseModule {
             },
         };
         this.actions = {
-            getAllUsernames: async () => sprinkler_asset_1.getAllUsernamesAsJSON(this._dataAccess),
+            getAllUsernames: async () => getAllUsernamesAsJSON(this._dataAccess),
         };
         this.beforeTransactionApply = async ({ transaction, stateStore, reducerHandler }) => {
             if (transaction.moduleID === 6666) {
