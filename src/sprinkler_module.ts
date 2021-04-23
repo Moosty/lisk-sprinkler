@@ -1,6 +1,6 @@
-import { BaseModule } from 'lisk-sdk';
-import { SprinklerTransaction } from ".";
-import { getAllUsernamesAsJSON } from './sprinkler_asset';
+import {BaseModule} from 'lisk-sdk';
+import {SprinklerTransaction} from ".";
+import {getAllUsernamesAsJSON} from './sprinkler_asset';
 
 export class SprinklerModule extends BaseModule {
   name = "sprinkler";
@@ -25,7 +25,7 @@ export class SprinklerModule extends BaseModule {
     getAllUsernames: async () => getAllUsernamesAsJSON(this._dataAccess),
   };
 
-  beforeTransactionApply = async ({ transaction, stateStore, reducerHandler}) => {
+  beforeTransactionApply = async ({transaction, stateStore, reducerHandler}) => {
     if (transaction.moduleID === 6666) {
       const sender = await stateStore.account.getOrDefault(transaction.senderAddress);
       await stateStore.account.set(transaction.senderAddress, sender);

@@ -1,34 +1,5 @@
-import { codec, cryptography } from 'lisk-sdk';
-
-const sprinklerAssetSchema = {
-  $id: "lisk/sprinkler/usernames",
-  type: "object",
-  required: ["registeredUsernames"],
-  properties: {
-    registeredUsernames: {
-      type: "array",
-      fieldNumber: 1,
-      items: {
-        type: "object",
-        required: ["id", "username", "ownerAddress"],
-        properties: {
-          id: {
-            dataType: "bytes",
-            fieldNumber: 1,
-          },
-          username: {
-            dataType: "string",
-            fieldNumber: 2,
-          },
-          ownerAddress: {
-            dataType: "bytes",
-            fieldNumber: 3,
-          },
-        },
-      },
-    },
-  },
-};
+import {codec, cryptography} from 'lisk-sdk';
+import {sprinklerModuleAssetSchema} from "./schema";
 
 const CHAIN_STATE_SPRINKLER = "sprinkler:usernames";
 
@@ -55,7 +26,7 @@ const getAllSprinklerAccounts = async stateStore => {
   }
 
   const registeredAccounts = codec.decode(
-    sprinklerAssetSchema,
+    sprinklerModuleAssetSchema,
     registeredAccountsBuffer
   ) as any;
 
@@ -72,11 +43,11 @@ const getAllUsernamesAsJSON = async dataAccess => {
   }
 
   const registeredAccounts = codec.decode(
-    sprinklerAssetSchema,
+    sprinklerModuleAssetSchema,
     registeredAccountsBuffer
   ) as any;
 
-  const accountJSON = codec.toJSON(sprinklerAssetSchema, registeredAccounts) as any;
+  const accountJSON = codec.toJSON(sprinklerModuleAssetSchema, registeredAccounts) as any;
 
   return accountJSON.registeredUsernames;
 }
@@ -88,7 +59,7 @@ const setAllSprinklerAccounts = async (stateStore, sprinklerAccounts) => {
 
   await stateStore.chain.set(
     CHAIN_STATE_SPRINKLER,
-    codec.encode(sprinklerAssetSchema, registeredAccounts)
+    codec.encode(sprinklerModuleAssetSchema, registeredAccounts)
   );
 }
 
@@ -98,5 +69,4 @@ export {
   getAllSprinklerAccounts,
   getAllUsernamesAsJSON,
   createSprinklerAccount,
-  sprinklerAssetSchema,
 }
