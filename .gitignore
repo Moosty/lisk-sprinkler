@@ -10,6 +10,9 @@ yarn.lock
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 junit.xml
 
+dist-browser
+dist-node
+
 # Runtime data
 pids
 *.pid
@@ -82,7 +85,6 @@ typings/
 # Nuxt.js build / generate output
 .nuxt
 dist
-dist-node
 
 tmp
 types

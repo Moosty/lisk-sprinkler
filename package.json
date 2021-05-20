@@ -1,6 +1,6 @@
 {
   "name": "@moosty/lisk-sprinkler",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "",
   "main": "dist-node/index.js",
   "repository": {
@@ -17,10 +17,7 @@
     "build:check": "node -e \"require('./dist-node')\""
   },
   "dependencies": {
-    "@liskhq/lisk-cryptography": "^2.5.0-alpha.0",
-    "@liskhq/lisk-transactions": "^4.0.0-alpha.0",
-    "@liskhq/lisk-validator": "^0.4.0-alpha.0",
-    "lisk-sdk": "^4.0.0-alpha.0",
+    "lisk-sdk": "^5.0.4",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
@@ -35,7 +32,7 @@
     "ts-jest": "^25.4.0",
     "ts-node": "^8.9.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.5"
   },
   "bugs": {
     "url": "https://github.com/moosty/lisk-sprinkler/issues"

@@ -1,1 +1,0 @@
-export const TRANSACTION_TYPE = 13001;
