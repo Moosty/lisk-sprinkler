@@ -54,9 +54,8 @@ const getAllUsernamesAsJSON = async dataAccess => {
 
 const setAllSprinklerAccounts = async (stateStore, sprinklerAccounts) => {
   const registeredAccounts = {
-    registeredSprinklerAccounts: sprinklerAccounts.sort((a, b) => a.id.compare(b.id))
+    registeredUsernames: sprinklerAccounts.sort((a, b) => a.id.compare(b.id))
   };
-
   await stateStore.chain.set(
     CHAIN_STATE_SPRINKLER,
     codec.encode(sprinklerModuleAssetSchema, registeredAccounts)
