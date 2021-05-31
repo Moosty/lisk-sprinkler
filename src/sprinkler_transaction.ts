@@ -11,20 +11,18 @@ export class SprinklerTransaction extends BaseAsset {
     const senderAddress = transaction.senderAddress;
     const senderAccount = await stateStore.account.getOrDefault(senderAddress);
     const allUsernames = await getAllSprinklerAccounts(stateStore);
-
-    if (!senderAccount.sprinkler.username &&
-      allUsernames.registeredUsernames.find(ru => ru.username === asset.username)) {
+    const foundUsername = allUsernames.find(ru => ru.username === asset.username)
+    if (!senderAccount.sprinkler.username && foundUsername) {
       throw new Error(
         `Username is already in use`,
       );
     }
-    if (!senderAccount.sprinkler.username &&
-      !allUsernames.registeredUsernames.find(ru => ru.username === asset.username)) {
+    if (!senderAccount.sprinkler.username) {
       senderAccount.sprinkler.username = asset.username;
       await stateStore.account.set(senderAddress, senderAccount);
-      allUsernames.registeredUsernames.push(createSprinklerAccount({
+      allUsernames.push(createSprinklerAccount({
         ownerAddress: transaction.senderAddress,
-        nonce: 0,
+        nonce: BigInt(0),
         username: asset.username,
       }))
       await setAllSprinklerAccounts(stateStore, allUsernames)
