@@ -1,66 +1,35 @@
 # Lisk-sprinkler
-#### Type: 1300
-#### SDK Versions: v4.0.0
+
+![Custom badge](https://img.shields.io/badge/Lisk%20SDK-v5.0.4-4070f4?link=https://github.com/LiskHQ/lisk-sdk/&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTc5cHgiIGhlaWdodD0iMjEzcHgiIHZpZXdCb3g9IjAgMCAxNzkgMjEzIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA1MS4zICg1NzU0NCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+R3JvdXA8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iQXJ0Ym9hcmQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yLjAwMDAwMCwgMC4wMDAwMDApIiBmaWxsPSIjRkZGRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iPgogICAgICAgICAgICA8ZyBpZD0iR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIuMDAwMDAwLCAwLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHBhdGggZD0iTTY5Ljc5MjI3OTksMjExLjkyOTM3MyBMOTcuMzM3NzkxNywxODAuNzg2MTg4IEM5Ny44MDIwNDE5LDE4MC4zMTkwNCA5Ny40OTI1NDE3LDE3OS41NDA0NiA5Ni43MTg3OTE0LDE3OS41NDA0NiBMNjYuMzg3Nzc4NCwxNzkuNTQwNDYgQzY2LjIzMzAyODQsMTc5LjU0MDQ2IDY1LjkyMzUyODIsMTc5LjM4NDc0NSA2NS43Njg3NzgyLDE3OS4yMjkwMjkgTDQwLjA4MDI2NzIsMTUwLjI2NTg2NyBDMzkuOTI1NTE3MSwxNDkuOTU0NDM1IDM5Ljc3MDc2NywxNDkuNjQzMDAzIDM5LjkyNTUxNzEsMTQ5LjMzMTU3MSBMODIuOTQ2MDM1NSw3NS4wNTUwNzU0IEM4My4xMDA3ODU2LDc0Ljc0MzY0MzYgODMuMTAwNzg1Niw3NC40MzIyMTE3IDgyLjk0NjAzNTUsNzQuMjc2NDk1OCBMNjUuMTQ5Nzc3OSw0My40NDQ3NDI4IEM2NC44NDAyNzc4LDQyLjk3NzU5NSA2NC4wNjY1Mjc0LDQyLjk3NzU5NSA2My43NTcwMjczLDQzLjQ0NDc0MjggTDAuMTU0NzUwMDY2LDE1My4zODAxODUgQzEuNzM0NzIzNDhlLTE2LDE1My42OTE2MTcgMS43MzQ3MjM0OGUtMTYsMTU0LjAwMzA0OSAwLjE1NDc1MDA2NiwxNTQuMzE0NDgxIEw1MS4yMjIyNzE5LDIxMi4wODUwODkgQzUxLjM3NzAyMiwyMTIuMjQwODA0IDUxLjUzMTc3MjEsMjEyLjM5NjUyIDUxLjg0MTI3MjIsMjEyLjM5NjUyIEw2OS4xNzMyNzk2LDIxMi4zOTY1MiBDNjkuMzI4MDI5NywyMTIuMjQwODA0IDY5LjYzNzUyOTgsMjEyLjA4NTA4OSA2OS43OTIyNzk5LDIxMS45MjkzNzMgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNODguNjcxNzg4LDAuNDY3MTQ3NzcyIEw3MC43MjA3ODAzLDMxLjI5ODkwMDcgQzcwLjU2NjAzMDIsMzEuNjEwMzMyNiA3MC41NjYwMzAyLDMxLjkyMTc2NDQgNzAuNzIwNzgwMywzMi4wNzc0ODA0IEw4OS4yOTA3ODgyLDY0LjE1NDk2MDcgTDEzOC41MDEzMDksMTQ5LjE3NTg1NSBDMTM4LjY1NjA1OSwxNDkuNDg3Mjg3IDEzOC42NTYwNTksMTQ5Ljc5ODcxOSAxMzguMzQ2NTU5LDE1MC4xMTAxNTEgTDExMi4zNDg1NDgsMTc5LjM4NDc0NSBMODQuNjQ4Mjg2MiwyMTAuODM5MzYxIEM4NC4xODQwMzYsMjExLjMwNjUwOSA4NC40OTM1MzYyLDIxMi4wODUwODkgODUuMjY3Mjg2NSwyMTIuMDg1MDg5IEwxMjYuNzQwMzA0LDIxMi4wODUwODkgQzEyNi44OTUwNTQsMjEyLjA4NTA4OSAxMjcuMjA0NTU0LDIxMS45MjkzNzMgMTI3LjM1OTMwNSwyMTEuNzczNjU3IEwxNzguNDI2ODI2LDE1NC4wMDMwNDkgQzE3OC41ODE1NzYsMTUzLjY5MTYxNyAxNzguNzM2MzI3LDE1My4zODAxODUgMTc4LjU4MTU3NiwxNTMuMDY4NzUzIEw4OS45MDk3ODg1LDAuNDY3MTQ3NzcyIEM4OS43NTUwMzg0LC0wLjE1NTcxNTkyNCA4OC45ODEyODgxLC0wLjE1NTcxNTkyNCA4OC42NzE3ODgsMC40NjcxNDc3NzIgWiIgaWQ9IlNoYXBlIj48L3BhdGg+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==)
 
 `lisk-sprinkler` is a faucet transaction with username registration.
-
 # Blockchain application installation
 `npm install lisk-transaction`
 
-```javascript
-const { SprinklerTransaction } = require('@moosty/lisk-sprinkler');
+In your application file change the module order for lisk-sprinkler to work: 
 
-app.registerTransaction(SprinklerTransaction);
+```javascript
+import {SprinklerModule} from "@moosty/lisk-sprinkler"
+
+const app = new Application(genesisBlockDevnet, appConfig);
+
+app._registerModule(SprinklerModule, false);
+app._registerModule(TokenModule, false);
+app._registerModule(SequenceModule, false);
+app._registerModule(KeysModule, false);
+app._registerModule(DPoSModule, false);
 ```
 
-```javascript
-const { unConfiguredSprinklerTransaction } = require('@moosty/lisk-sprinkler');
-
-// configure amount to receive from the transaction
-// balance is used as max account balance to run the sprinkler transaction
-const SprinklerTransaction = unConfiguredSprinklerTransaction({
-  amount: "10000000000",
-  balance: "100000000",
-})
-app.registerTransaction(SprinklerTransaction);
+The sprinkler transactions could be made with the following params:
 ```
-
-## Constants
-`TRANSACTION_TYPE`: 1300
-
-# Client side
-## Syntax
-```javascript
-sprinklerTransaction(options);
-```
-
-## Parameters
-`options`: Options to be used for creating Transaction.
-- `networkIdentifier` (required): The ID of the network where the transaction will be broadcasted to.
-- `username` (required): Username for account
-- `passphrase` (optional): Passphrase to use to sign the transaction. If not provided at creation the transaction can be signed later.
-- `secondPassphrase` (optional): Second passphrase to use to sign the transaction if the account has registered a second passphrase. If not provided at the creation, the transaction can be signed with the second passphrase later.
-
-## Return value
-`object`: Valid sprinkler transaction object.
-
-### Example
-```javascript
-Transaction({
-    networkIdentifier: '7158c297294a540bc9ac6e474529c3da38d03ece056e3fa2d98141e6ec54132d',
-    username: 'johndoe',
-    passphrase: "creek own stem final gate scrub live shallow stage host concert they"
-});
-/*
-{
-  senderPublicKey: "5c554d43301786aec29a09b13b485176e81d1532347a351aeafe018c199fd7ca",
-  timestamp: 117410306,
-  type: 1300,
-  asset: {
-    username: 'johndoe',
-  }
-}*/
+ModuleID: 6666
+AssetID: 100
+Asset: {
+  username: string
+}
 ```
 
 # Change logs
+`May 7th, 2021`: Upgraded to sdk v5.0.4
+
 `May 7th, 2020`: Created initial release
