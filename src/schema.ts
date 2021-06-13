@@ -29,7 +29,7 @@ export const sprinklerModuleAssetSchema = {
 };
 
 export const sprinkleTransactionAssetSchema = {
-  $id: "lisk/sprinkler/sprinkle",
+  $id: "sprinkler/sprinkle",
   type: "object",
   required: ["username"],
   properties: {

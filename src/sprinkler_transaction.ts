@@ -1,25 +1,34 @@
-import {BaseAsset} from 'lisk-sdk';
+import {ApplyAssetContext, BaseAsset} from 'lisk-sdk';
 import {sprinkleTransactionAssetSchema} from "./schema";
 import {createSprinklerAccount, getAllSprinklerAccounts, setAllSprinklerAccounts} from "./sprinkler_asset";
 
-export class SprinklerTransaction extends BaseAsset {
-  name = "sprinkle";
-  id = 100;
-  schema = sprinkleTransactionAssetSchema
+interface SprinklerAccount {
+  sprinkler: {
+    username: string
+  }
+}
 
-  apply = async ({transaction, asset, stateStore, reducerHandler}) => {
-    const senderAddress = transaction.senderAddress;
-    const senderAccount = await stateStore.account.getOrDefault(senderAddress);
+interface Asset {
+  username: string;
+}
+
+export class SprinklerTransaction extends BaseAsset {
+  public name = "sprinkle";
+  public id = 100;
+  public schema = sprinkleTransactionAssetSchema
+
+  public async apply({transaction, asset, stateStore, reducerHandler}: ApplyAssetContext<Asset>): Promise<void> {
+    const senderAccount = await stateStore.account.getOrDefault<SprinklerAccount>(transaction.senderAddress);
     const allUsernames = await getAllSprinklerAccounts(stateStore);
     const foundUsername = allUsernames.find(ru => ru.username === asset.username)
     if (!senderAccount.sprinkler.username && foundUsername) {
       throw new Error(
-        `Username is already in use`,
+          `Username is already in use`,
       );
     }
-    if (!senderAccount.sprinkler.username) {
+    if (senderAccount.sprinkler && !senderAccount.sprinkler.username) {
       senderAccount.sprinkler.username = asset.username;
-      await stateStore.account.set(senderAddress, senderAccount);
+      await stateStore.account.set(transaction.senderAddress, senderAccount);
       allUsernames.push(createSprinklerAccount({
         ownerAddress: transaction.senderAddress,
         nonce: BigInt(0),
@@ -28,16 +37,16 @@ export class SprinklerTransaction extends BaseAsset {
       await setAllSprinklerAccounts(stateStore, allUsernames)
     }
     const senderBalance = await reducerHandler.invoke("token:getBalance", {
-      address: senderAddress,
-    });
+      address: transaction.senderAddress,
+    }) as BigInt;
 
     if (senderBalance > BigInt(100000000)) {
       throw new Error(
-        `Invalid account balance`,
+          `Invalid account balance`,
       );
     }
     await reducerHandler.invoke("token:credit", {
-      address: senderAddress,
+      address: transaction.senderAddress,
       amount: BigInt(100000000000),
     });
   }

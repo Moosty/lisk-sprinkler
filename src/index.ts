@@ -1,9 +1,3 @@
-import {SprinklerTransaction} from './sprinkler_transaction';
-import {SprinklerModule} from './sprinkler_module';
-import {sprinkleTransactionAssetSchema} from './schema';
-
-export {
-  SprinklerTransaction,
-  SprinklerModule,
-  sprinkleTransactionAssetSchema,
-}
+export {SprinklerTransaction} from './sprinkler_transaction';
+export {SprinklerModule} from './sprinkler_module';
+export {sprinkleTransactionAssetSchema} from './schema';

@@ -4,6 +4,7 @@ coverage/
 fixtures/
 src/
 test/
+node_modules/
 
 tsconfig.tsbuildinfo
 yarn.lock
@@ -16,3 +17,4 @@ tsconfig.browser.json
 .DS_Store
 .project
 __MACOSX/
+*.tgz

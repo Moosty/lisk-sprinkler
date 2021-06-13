@@ -1,4 +1,4 @@
-import {codec, cryptography} from 'lisk-sdk';
+import {codec, cryptography, StateStore, BaseModuleDataAccess} from 'lisk-sdk';
 import {sprinklerModuleAssetSchema} from "./schema";
 
 const CHAIN_STATE_SPRINKLER = "sprinkler:usernames";
@@ -16,9 +16,9 @@ const createSprinklerAccount = ({ownerAddress, nonce, username}) => {
   };
 };
 
-const getAllSprinklerAccounts = async stateStore => {
+const getAllSprinklerAccounts = async (stateStore: StateStore) => {
   const registeredAccountsBuffer = await stateStore.chain.get(
-    CHAIN_STATE_SPRINKLER
+      CHAIN_STATE_SPRINKLER
   );
 
   if (!registeredAccountsBuffer) {
@@ -26,16 +26,16 @@ const getAllSprinklerAccounts = async stateStore => {
   }
 
   const registeredAccounts = codec.decode(
-    sprinklerModuleAssetSchema,
-    registeredAccountsBuffer
+      sprinklerModuleAssetSchema,
+      registeredAccountsBuffer
   ) as any;
 
   return registeredAccounts.registeredUsernames;
 }
 
-const getAllUsernamesAsJSON = async dataAccess => {
+const getAllUsernamesAsJSON = async (dataAccess: BaseModuleDataAccess) => {
   const registeredAccountsBuffer = await dataAccess.getChainState(
-    CHAIN_STATE_SPRINKLER
+      CHAIN_STATE_SPRINKLER
   );
 
   if (!registeredAccountsBuffer) {
@@ -43,8 +43,8 @@ const getAllUsernamesAsJSON = async dataAccess => {
   }
 
   const registeredAccounts = codec.decode(
-    sprinklerModuleAssetSchema,
-    registeredAccountsBuffer
+      sprinklerModuleAssetSchema,
+      registeredAccountsBuffer
   ) as any;
 
   const accountJSON = codec.toJSON(sprinklerModuleAssetSchema, registeredAccounts) as any;
@@ -52,13 +52,13 @@ const getAllUsernamesAsJSON = async dataAccess => {
   return accountJSON.registeredUsernames;
 }
 
-const setAllSprinklerAccounts = async (stateStore, sprinklerAccounts) => {
+const setAllSprinklerAccounts = async (stateStore: StateStore, sprinklerAccounts) => {
   const registeredAccounts = {
     registeredUsernames: sprinklerAccounts.sort((a, b) => a.id.compare(b.id))
   };
   await stateStore.chain.set(
-    CHAIN_STATE_SPRINKLER,
-    codec.encode(sprinklerModuleAssetSchema, registeredAccounts)
+      CHAIN_STATE_SPRINKLER,
+      codec.encode(sprinklerModuleAssetSchema, registeredAccounts)
   );
 }
 

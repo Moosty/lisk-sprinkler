@@ -1,13 +1,12 @@
-import {BaseModule} from 'lisk-sdk';
+import {GenesisConfig, TransactionApplyContext} from 'lisk-sdk';
+import {BaseModule} from 'lisk-framework/dist-node/modules/base_module'
 import {SprinklerTransaction} from ".";
 import {getAllUsernamesAsJSON} from './sprinkler_asset';
 
 export class SprinklerModule extends BaseModule {
-  name = "sprinkler";
-  id = 6666;
-  transactionAssets = [new SprinklerTransaction()];
-
-  accountSchema = {
+  public name = "sprinkler";
+  public id = 6666;
+  public accountSchema = {
     type: "object",
     required: ["username"],
     properties: {
@@ -21,11 +20,16 @@ export class SprinklerModule extends BaseModule {
     },
   };
 
-  actions = {
+  public constructor(genesisConfig: GenesisConfig) {
+    super(genesisConfig);
+    this.transactionAssets = [new SprinklerTransaction()];
+  }
+
+  public actions = {
     getAllUsernames: async () => getAllUsernamesAsJSON(this._dataAccess),
   };
 
-  beforeTransactionApply = async ({transaction, stateStore, reducerHandler}) => {
+  public async beforeTransactionApply({transaction, stateStore, reducerHandler}: TransactionApplyContext) {
     if (transaction.moduleID === 6666) {
       const sender = await stateStore.account.getOrDefault(transaction.senderAddress);
       await stateStore.account.set(transaction.senderAddress, sender);
